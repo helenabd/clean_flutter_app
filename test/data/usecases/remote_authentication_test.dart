@@ -3,30 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:clean_flutter_app/domain/usecases/usecases.dart';
+import 'package:clean_flutter_app/data/usecases/usecases.dart';
 
 import '../mocks/mocks.dart';
-
-class RemoteAuthentication {
-  final HttpClient httpClient;
-  final String url;
-
-  RemoteAuthentication({
-    required this.httpClient,
-    required this.url,
-  });
-  Future<void> auth(AuthenticationParams params) async {
-    final body = {'email': params.email, 'password': params.secret};
-    await httpClient.request(url: url, method: 'post', body: body);
-  }
-}
-
-abstract class HttpClient {
-  Future<void> request({
-    required String url,
-    required String method,
-    Map body,
-  });
-}
 
 void main() {
   late RemoteAuthentication sut;
