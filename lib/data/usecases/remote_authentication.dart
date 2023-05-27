@@ -9,6 +9,8 @@ class RemoteAuthentication implements Authentication {
     required this.httpClient,
     required this.url,
   });
+
+  @override
   Future<AccountEntity> auth(AuthenticationParams params) async {
     try {
       final httpResponse = await httpClient.request(
