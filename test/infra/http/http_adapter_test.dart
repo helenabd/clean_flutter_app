@@ -2,6 +2,7 @@ import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
+import 'package:clean_flutter_app/data/http/http.dart';
 import 'package:clean_flutter_app/infra/http/http.dart';
 
 import '../mocks/mocks.dart';
@@ -75,6 +76,14 @@ void main() {
       final response = await sut.request(url: url, method: 'post');
 
       expect(response, null);
+    });
+
+    test('Should return BadRequestError if post returns 400', () async {
+      client.mockPost(400, body: '');
+
+      final future = sut.request(url: url, method: 'post');
+
+      expect(future, throwsA(HttpError.badRequest));
     });
   });
 }
