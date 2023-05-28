@@ -14,7 +14,8 @@ class HttpAdapter implements HttpClient {
 
   HttpAdapter(this.client);
 
-  Future<Map> request({
+  @override
+  Future<dynamic> request({
     required String url,
     required String method,
     Map? body,
@@ -26,7 +27,7 @@ class HttpAdapter implements HttpClient {
     final jsonBody = body != null ? jsonEncode(body) : null;
     final response =
         await client.post(Uri.parse(url), headers: headers, body: jsonBody);
-    return jsonDecode(response.body);
+    return response.body.isEmpty ? null : jsonDecode(response.body);
   }
 }
 
@@ -74,6 +75,14 @@ void main() {
       final response = await sut.request(url: url, method: 'post');
 
       expect(response, {'any_key': 'any_value'});
+    });
+
+    test('Should return null if post returns 200 with no data', () async {
+      client.mockPost(200, body: '');
+
+      final response = await sut.request(url: url, method: 'post');
+
+      expect(response, null);
     });
   });
 }
