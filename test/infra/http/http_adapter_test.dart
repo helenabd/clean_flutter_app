@@ -47,6 +47,10 @@ void main() {
   });
 
   group('post', () {
+    setUp(() {
+      client.mockPost(200);
+    });
+
     test('Should call post with correct values', () async {
       await sut
           .request(url: url, method: 'post', body: {'any_key': 'any_value'});
@@ -69,9 +73,6 @@ void main() {
     });
 
     test('Should return data if post returns 200', () async {
-      when(() => client.post(any(), headers: any(named: 'headers')))
-          .thenAnswer((_) async => Response('{"any_key":"any_value"}', 200));
-
       final response = await sut.request(url: url, method: 'post');
 
       expect(response, {'any_key': 'any_value'});
