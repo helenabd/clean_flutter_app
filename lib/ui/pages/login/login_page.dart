@@ -7,11 +7,11 @@ import '../../components/components.dart';
 import '../pages.dart';
 
 class LoginPage extends StatelessWidget {
-  final LoginPresenter? presenter;
+  final LoginPresenter presenter;
 
   const LoginPage({
     super.key,
-    this.presenter,
+    required this.presenter,
   });
 
   @override
@@ -28,18 +28,23 @@ class LoginPage extends StatelessWidget {
               child: Form(
                   child: Column(
                 children: [
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      icon: Icon(
-                        Icons.email,
-                        color: Theme.of(context).primaryColorLight,
-                      ),
-                      labelStyle: Theme.of(context).textTheme.bodyText2,
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    onChanged: presenter?.validateEmail,
-                  ),
+                  StreamBuilder<String>(
+                      stream: presenter.emailErrorStream(),
+                      builder: (context, snapshot) {
+                        return TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Email',
+                            icon: Icon(
+                              Icons.email,
+                              color: Theme.of(context).primaryColorLight,
+                            ),
+                            errorText: snapshot.data,
+                            labelStyle: Theme.of(context).textTheme.bodyText2,
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          onChanged: presenter.validateEmail,
+                        );
+                      }),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 32),
                     child: TextFormField(
@@ -53,7 +58,7 @@ class LoginPage extends StatelessWidget {
                         // labelStyle: ,
                       ),
                       obscureText: true,
-                      onChanged: presenter?.validatePassword,
+                      onChanged: presenter.validatePassword,
                     ),
                   ),
                   ElevatedButton(
