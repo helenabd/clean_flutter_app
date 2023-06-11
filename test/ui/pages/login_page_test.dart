@@ -12,12 +12,16 @@ import '../mocks/mocks.dart';
 void main() {
   late LoginPresenterSpy presenter;
   late StreamController<String> emailErrorController;
+  late StreamController<String> passwordErrorController;
 
   Future<void> loadPage(WidgetTester tester) async {
     presenter = LoginPresenterSpy();
     emailErrorController = StreamController<String>();
+    passwordErrorController = StreamController<String>();
     when(() => presenter.emailErrorStream())
         .thenAnswer((_) => emailErrorController.stream);
+    when(() => presenter.passwordErrorStream())
+        .thenAnswer((_) => passwordErrorController.stream);
     final loginPage = MaterialApp(
         home: LoginPage(
       presenter: presenter,
@@ -27,6 +31,7 @@ void main() {
 
   tearDown(() {
     emailErrorController.close();
+    passwordErrorController.close();
   });
 
   testWidgets('Should load with correct initial state',
@@ -88,5 +93,15 @@ void main() {
       matching: find.byType(Text),
     );
     expect(emailTextChildren, findsOneWidget);
+  });
+
+  testWidgets('Should presents error if password is not valid',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    passwordErrorController.add('any error');
+    await tester.pump();
+
+    expect(find.text('any error'), findsOneWidget);
   });
 }
