@@ -135,7 +135,7 @@ void main() {
     expect(button.onPressed, isNotNull);
   });
 
-  testWidgets('Should disable button if form is valid',
+  testWidgets('Should disable button if form is invalid',
       (WidgetTester tester) async {
     await loadPage(tester);
 
