@@ -8,6 +8,7 @@ abstract class LoginPresenter {
   void validateEmail(String email);
   void validatePassword(String password);
   void auth();
+  void dispose();
 }
 
 class Login implements LoginPresenter {
@@ -52,5 +53,10 @@ class Login implements LoginPresenter {
   Stream<String> mainErrorStream() {
     // TODO: implement mainErrorStream
     throw UnimplementedError();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
   }
 }
