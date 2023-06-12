@@ -5,6 +5,7 @@ abstract class LoginPresenter {
 
   void validateEmail(String email);
   void validatePassword(String password);
+  void auth();
 }
 
 class Login implements LoginPresenter {
@@ -32,5 +33,10 @@ class Login implements LoginPresenter {
   Stream<bool> isFormValidStream() {
     // TODO: implement isFormValidStream
     throw UnimplementedError();
+  }
+
+  @override
+  void auth() {
+    // TODO: implement auth
   }
 }
