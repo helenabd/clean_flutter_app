@@ -7,7 +7,7 @@ abstract class LoginPresenter {
 
   void validateEmail(String email);
   void validatePassword(String password);
-  void auth();
+  Future<void>? auth();
   void dispose();
 }
 
@@ -39,11 +39,6 @@ class Login implements LoginPresenter {
   }
 
   @override
-  void auth() {
-    // TODO: implement auth
-  }
-
-  @override
   Stream<bool> isLoadingStream() {
     // TODO: implement isLoadingStream
     throw UnimplementedError();
@@ -58,5 +53,11 @@ class Login implements LoginPresenter {
   @override
   void dispose() {
     // TODO: implement dispose
+  }
+
+  @override
+  Future<void>? auth() {
+    // TODO: implement auth
+    throw UnimplementedError();
   }
 }

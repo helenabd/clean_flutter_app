@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                           builder: (context, snapshot) {
                             return ElevatedButton(
                               onPressed: snapshot.data == true
-                                  ? () => widget.presenter.auth()
+                                  ? () => widget.presenter.auth
                                   : null,
                               child: Text('Entrar'.toUpperCase()),
                             );
