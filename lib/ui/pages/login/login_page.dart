@@ -48,6 +48,20 @@ class LoginPage extends StatelessWidget {
               }
             }
           });
+
+          presenter.mainErrorStream().listen((error) {
+            // ignore: unnecessary_null_comparison
+            if (error != null) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                backgroundColor: Colors.red[900],
+                content: Text(
+                  error,
+                  textAlign: TextAlign.center,
+                ),
+              ));
+            }
+          });
+
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

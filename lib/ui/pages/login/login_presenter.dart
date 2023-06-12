@@ -3,6 +3,7 @@ abstract class LoginPresenter {
   Stream<String> passwordErrorStream();
   Stream<bool> isFormValidStream();
   Stream<bool> isLoadingStream();
+  Stream<String> mainErrorStream();
 
   void validateEmail(String email);
   void validatePassword(String password);
@@ -44,6 +45,12 @@ class Login implements LoginPresenter {
   @override
   Stream<bool> isLoadingStream() {
     // TODO: implement isLoadingStream
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<String> mainErrorStream() {
+    // TODO: implement mainErrorStream
     throw UnimplementedError();
   }
 }
