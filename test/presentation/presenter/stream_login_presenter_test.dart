@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_if_null_operators
+
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -36,7 +38,11 @@ void main() {
     mockValidation(value: 'error');
 
     sut.emailErrorStream
-        .listen(expectAsync1((error) => expect(error, 'error')));
+        .listen(expectAsync1((error) => expect(error, 'error')))
+        .asFuture((_) {
+      sut.isFormValidStream
+          .listen(expectAsync1((isValid) => expect(isValid, false)));
+    });
 
     sut.validateEmail(email);
     sut.validateEmail(email);
