@@ -1,32 +1,10 @@
-import 'dart:async';
-
-import 'package:clean_flutter_app/presentation/presentation.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
+import 'package:clean_flutter_app/presentation/presentation.dart';
+
 import '../mocks/mocks.dart';
-
-class LoginState {
-  String? emailError;
-}
-
-class StreamLoginPresenter {
-  final Validation validation;
-  final _controller = StreamController<LoginState>();
-
-  var _state = LoginState();
-
-  Stream<String> get emailErrorStream =>
-      _controller.stream.map((state) => state.emailError!);
-
-  StreamLoginPresenter({required this.validation});
-
-  void validateEmail(String email) {
-    _state.emailError = validation.validate(field: 'email', value: email);
-    _controller.add(_state);
-  }
-}
 
 void main() {
   late StreamLoginPresenter sut;
