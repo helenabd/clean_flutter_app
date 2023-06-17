@@ -1,6 +1,5 @@
+import 'package:clean_flutter_app/presentation/presentation.dart';
 import 'package:mocktail/mocktail.dart';
-
-import '../presenter/stream_login_presenter_test.dart';
 
 class ValidationSpy extends Mock implements Validation {
   // ValidationSpy(String email) {
