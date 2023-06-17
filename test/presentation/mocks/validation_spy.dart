@@ -3,14 +3,13 @@ import 'package:mocktail/mocktail.dart';
 import '../presenter/stream_login_presenter_test.dart';
 
 class ValidationSpy extends Mock implements Validation {
-  ValidationSpy() {
-    mockValidation('', '');
-  }
+  // ValidationSpy(String email) {
+  //   mockValidation('email', email);
+  // }
 
-  When mockValidationCall(String? field, String? value) => when(() => validate(
-      field: field == null ? any(named: 'field') : field,
-      value: any(named: 'value')));
+  When mockValidationCall(String field, String value) =>
+      when(() => validate(field: field, value: value));
 
-  void mockValidation(String? field, String? value) =>
-      mockValidationCall(field, value).thenReturn(null);
+  void mockValidation(String field, String value) =>
+      mockValidationCall(field, value).thenAnswer((_) async => _);
 }

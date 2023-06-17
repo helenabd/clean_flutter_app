@@ -23,10 +23,19 @@ void main() {
   late ValidationSpy validation;
   late String email;
 
+  When mockValidation(String email, String field) =>
+      when(() => validation.validate(field: field, value: email));
+
+  void mock(String email, String field) {
+    mockValidation(email, field).thenAnswer((_) async => _);
+  }
+
   setUp(() {
+    email = faker.internet.email();
     validation = ValidationSpy();
     sut = StreamLoginPresenter(validation: validation);
-    email = faker.internet.email();
+    validation.mockValidation('email', email);
+    mock(email, 'email');
   });
 
   test('Should call Validation with correct email', () {
