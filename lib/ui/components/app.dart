@@ -24,7 +24,7 @@ class App extends StatelessWidget {
         primaryColor: primaryColor,
         primaryColorDark: primaryColorDark,
         primaryColorLight: primaryColorLight,
-        accentColor: primaryColor,
+        // accentColor: primaryColor,
         backgroundColor: Colors.white,
         textTheme: const TextTheme(
           headline1: TextStyle(

@@ -29,6 +29,8 @@ void main() {
   });
 
   test('Should call Validation with correct email', () {
+    mockValidation(value: email);
+
     sut.validateEmail(email);
 
     verify(() => validation.validate(field: 'email', value: email)).called(1);
@@ -43,6 +45,19 @@ void main() {
       sut.isFormValidStream
           .listen(expectAsync1((isValid) => expect(isValid, false)));
     });
+
+    sut.validateEmail(email);
+    sut.validateEmail(email);
+  });
+
+  test('Should emit null if validation succeeds', () {
+    mockValidation(value: email);
+
+    sut.emailErrorStream.listen(expectAsync1((error) => expect(error, null)));
+    //     .asFuture((_) {
+    //   sut.isFormValidStream
+    //       .listen(expectAsync1((isValid) => expect(isValid, false)));
+    // });
 
     sut.validateEmail(email);
     sut.validateEmail(email);
