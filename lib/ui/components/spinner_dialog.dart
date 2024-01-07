@@ -5,11 +5,11 @@ void showLoading({required BuildContext context}) {
     context: context,
     barrierDismissible: false,
     builder: (context) {
-      return SimpleDialog(
+      return const SimpleDialog(
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               CircularProgressIndicator(),
               SizedBox(height: 10),
               Text(
