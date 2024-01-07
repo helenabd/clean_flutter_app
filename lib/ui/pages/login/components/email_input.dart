@@ -22,7 +22,7 @@ class EmailInput extends StatelessWidget {
                 color: Theme.of(context).primaryColorLight,
               ),
               errorText: snapshot.data?.isEmpty == true ? null : snapshot.data,
-              labelStyle: Theme.of(context).textTheme.bodyText2,
+              labelStyle: Theme.of(context).textTheme.bodyMedium,
             ),
             keyboardType: TextInputType.emailAddress,
             onChanged: presenter.validateEmail,

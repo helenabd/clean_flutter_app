@@ -16,7 +16,7 @@ class PasswordInput extends StatelessWidget {
       stream: presenter.passwordErrorStream(),
       builder: (context, snapshot) {
         return TextFormField(
-          style: Theme.of(context).textTheme.bodyText2,
+          style: Theme.of(context).textTheme.bodyMedium,
           decoration: InputDecoration(
             labelText: 'Senha',
             errorText: snapshot.data?.isEmpty == true ? null : snapshot.data,
