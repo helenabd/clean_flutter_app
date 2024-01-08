@@ -177,7 +177,7 @@ void main() {
     await tester.pump();
 
     final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
-    ;
+
     await tester.pump();
 
     expect(button.onPressed, isNotNull);

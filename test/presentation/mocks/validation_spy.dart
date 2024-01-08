@@ -10,5 +10,5 @@ class ValidationSpy extends Mock implements Validation {
       when(() => validate(field: field, value: value));
 
   void mockValidation(String field, String value) =>
-      mockValidationCall(field, value).thenReturn(value);
+      mockValidationCall(field, value).thenReturn('');
 }
