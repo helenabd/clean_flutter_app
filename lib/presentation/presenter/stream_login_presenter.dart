@@ -24,4 +24,10 @@ class StreamLoginPresenter {
     _state.emailError = validation.validate(field: 'email', value: email) ?? '';
     _controller.add(_state);
   }
+
+  void validatePassword(String password) {
+    validation.validate(field: 'password', value: password);
+    // _state.emailError = validation.validate(field: 'email', value: email) ?? '';
+    // _controller.add(_state);
+  }
 }
