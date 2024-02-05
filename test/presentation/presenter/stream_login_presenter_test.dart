@@ -177,9 +177,27 @@ void main() {
     await Future.delayed(Duration.zero);
     sut.validatePassword(password);
 
-    expectLater(sut.isLoadingStream, emits(false));
-    sut.mainErrorStream.listen(
-        expectAsync1((error) => expect(error, 'Credenciais inválidas')));
+    sut.mainErrorStream
+        .listen(expectAsync1((error) => expect(error, 'Credenciais inválidas')))
+        .asFuture((_) {
+      expectLater(sut.isLoadingStream, emits(false));
+    });
+
+    await sut.auth();
+  });
+
+  test('Should emit correct events on UnexpectedError', () async {
+    mockAuthenticationError(DomainError.unexpected);
+    sut.validateEmail(email);
+    await Future.delayed(Duration.zero);
+    sut.validatePassword(password);
+
+    sut.mainErrorStream
+        .listen(expectAsync1((error) =>
+            expect(error, 'Algo errado aconteceu. Tente novamente em breve')))
+        .asFuture((_) {
+      expectLater(sut.isLoadingStream, emits(false));
+    });
 
     await sut.auth();
   });
