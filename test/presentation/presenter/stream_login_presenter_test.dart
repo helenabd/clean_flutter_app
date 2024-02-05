@@ -25,12 +25,12 @@ void main() {
     mockValidationCall(field).thenReturn(value);
   }
 
-  When mockAuthenticationCall({String? emailX, String? value}) =>
-      when(() => authentication
-          .auth(AuthenticationParams(email: emailX!, secret: value!)));
+  When mockAuthenticationCall() => when(() => authentication.auth(any()));
 
-  void mockAuthentication({String? emailX, String? value}) {
-    mockAuthenticationCall(emailX: emailX, value: value).thenAnswer((_) => 1);
+  void mockAuthentication() {
+    registerFallbackValue(AuthenticationParams(email: email, secret: password));
+    mockAuthenticationCall()
+        .thenAnswer((_) async => AccountEntity(faker.guid.guid()));
   }
 
   setUp(() {
@@ -147,7 +147,6 @@ void main() {
   });
 
   test('Should call authentication with correct values', () async {
-    mockAuthentication(emailX: email, value: password);
     sut.validateEmail(email);
     await Future.delayed(Duration.zero);
     sut.validatePassword(password);
@@ -156,5 +155,15 @@ void main() {
 
     verify(() => authentication
         .auth(AuthenticationParams(email: email, secret: password))).called(1);
+  });
+
+  test('Should emit correct events on Authentication success', () async {
+    sut.validateEmail(email);
+    await Future.delayed(Duration.zero);
+    sut.validatePassword(password);
+
+    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+
+    await sut.auth();
   });
 }
