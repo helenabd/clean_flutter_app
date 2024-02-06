@@ -60,10 +60,10 @@ void main() {
     mockValidation(value: 'error');
 
     sut.emailErrorStream
-        .listen(expectAsync1((error) => expect(error, 'error')))
+        ?.listen(expectAsync1((error) => expect(error, 'error')))
         .asFuture((_) {
       sut.isFormValidStream
-          .listen(expectAsync1((isValid) => expect(isValid, false)));
+          ?.listen(expectAsync1((isValid) => expect(isValid, false)));
     });
 
     sut.validateEmail(email);
@@ -72,10 +72,10 @@ void main() {
 
   test('Should emit null if validation succeeds', () {
     sut.emailErrorStream
-        .listen(expectAsync1((error) => expect(error, '')))
+        ?.listen(expectAsync1((error) => expect(error, '')))
         .asFuture((_) {
       sut.isFormValidStream
-          .listen(expectAsync1((isValid) => expect(isValid, false)));
+          ?.listen(expectAsync1((isValid) => expect(isValid, false)));
     });
 
     sut.validateEmail(email);
@@ -93,10 +93,10 @@ void main() {
     mockValidation(value: 'error');
 
     sut.passwordErrorStream
-        .listen(expectAsync1((error) => expect(error, 'error')))
+        ?.listen(expectAsync1((error) => expect(error, 'error')))
         .asFuture((_) {
       sut.isFormValidStream
-          .listen(expectAsync1((isValid) => expect(isValid, false)));
+          ?.listen(expectAsync1((isValid) => expect(isValid, false)));
     });
 
     sut.validatePassword(password);
@@ -105,10 +105,10 @@ void main() {
 
   test('Should emit password null if validation succeeds', () {
     sut.passwordErrorStream
-        .listen(expectAsync1((error) => expect(error, '')))
+        ?.listen(expectAsync1((error) => expect(error, '')))
         .asFuture((_) {
       sut.isFormValidStream
-          .listen(expectAsync1((isValid) => expect(isValid, false)));
+          ?.listen(expectAsync1((isValid) => expect(isValid, false)));
     });
 
     sut.validatePassword(password);
@@ -118,13 +118,13 @@ void main() {
   test('Should emit form invalid event if any field is invalid', () {
     mockValidation(field: 'email', value: 'error');
     sut.emailErrorStream
-        .listen(expectAsync1((error) => expect(error, 'error')))
+        ?.listen(expectAsync1((error) => expect(error, 'error')))
         .asFuture((_) {
       sut.passwordErrorStream
-          .listen(expectAsync1((error) => expect(error, '')))
+          ?.listen(expectAsync1((error) => expect(error, '')))
           .asFuture((_) {
         sut.isFormValidStream
-            .listen(expectAsync1((isValid) => expect(isValid, false)));
+            ?.listen(expectAsync1((isValid) => expect(isValid, false)));
       });
     });
 
@@ -134,10 +134,10 @@ void main() {
 
   test('Should emit form valid event if form is valid', () async {
     sut.emailErrorStream
-        .listen(expectAsync1((error) => expect(error, '')))
+        ?.listen(expectAsync1((error) => expect(error, '')))
         .asFuture((_) {
       sut.passwordErrorStream
-          .listen(expectAsync1((error) => expect(error, '')))
+          ?.listen(expectAsync1((error) => expect(error, '')))
           .asFuture((_) {
         // sut.isFormValidStream
         //     .listen(expectAsync1((isValid) => expect(isValid, true)));
@@ -178,7 +178,8 @@ void main() {
     sut.validatePassword(password);
 
     sut.mainErrorStream
-        .listen(expectAsync1((error) => expect(error, 'Credenciais inválidas')))
+        ?.listen(
+            expectAsync1((error) => expect(error, 'Credenciais inválidas')))
         .asFuture((_) {
       expectLater(sut.isLoadingStream, emits(false));
     });
@@ -193,12 +194,21 @@ void main() {
     sut.validatePassword(password);
 
     sut.mainErrorStream
-        .listen(expectAsync1((error) =>
+        ?.listen(expectAsync1((error) =>
             expect(error, 'Algo errado aconteceu. Tente novamente em breve')))
         .asFuture((_) {
       expectLater(sut.isLoadingStream, emits(false));
     });
 
     await sut.auth();
+  });
+
+  test('Should not emit after dispose', () async {
+    expectLater(sut.emailErrorStream, neverEmits(null));
+
+    sut.validateEmail(email);
+    sut.dispose();
+
+    // await sut.auth();
   });
 }
