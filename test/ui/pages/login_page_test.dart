@@ -26,15 +26,15 @@ void main() {
   }
 
   void mockStreams() {
-    when(() => presenter.emailErrorStream())
+    when(() => presenter.emailErrorStream)
         .thenAnswer((_) => emailErrorController.stream);
-    when(() => presenter.passwordErrorStream())
+    when(() => presenter.passwordErrorStream)
         .thenAnswer((_) => passwordErrorController.stream);
-    when(() => presenter.isFormValidStream())
+    when(() => presenter.isFormValidStream)
         .thenAnswer((_) => isFormValidController.stream);
-    when(() => presenter.isLoadingStream())
+    when(() => presenter.isLoadingStream)
         .thenAnswer((_) => isLoadingController.stream);
-    when(() => presenter.mainErrorStream())
+    when(() => presenter.mainErrorStream)
         .thenAnswer((_) => mainErrorController.stream);
   }
 

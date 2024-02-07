@@ -7,7 +7,7 @@ import '../../components/components.dart';
 
 import '../pages.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   final LoginPresenter presenter;
 
   const LoginPage({
@@ -16,35 +16,24 @@ class LoginPage extends StatefulWidget {
   });
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  @override
-  void dispose() {
-    widget.presenter.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Builder(
         builder: (context) {
-          widget.presenter.isLoadingStream().listen((isLoading) {
-            if (isLoading) {
-              showLoading(context: context);
-            } else {
-              hideLoading(context: context);
-            }
-          });
+          // presenter.isLoadingStream?.listen((isLoading) {
+          //   if (isLoading) {
+          //     showLoading(context: context);
+          //   } else {
+          //     hideLoading(context: context);
+          //   }
+          // });
 
-          widget.presenter.mainErrorStream().listen((error) {
-            // ignore: unnecessary_null_comparison
-            if (error != null) {
-              showErrorMessage(context: context, error: error);
-            }
-          });
+          // presenter.mainErrorStream?.listen((error) {
+          //   // ignore: unnecessary_null_comparison
+          //   if (error != null) {
+          //     showErrorMessage(context: context, error: error);
+          //   }
+          // });
 
           return SingleChildScrollView(
             child: Column(
@@ -55,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.all(32.0),
                   child: Provider(
-                    create: (_) => widget.presenter,
+                    create: (_) => presenter,
                     child: Form(
                         child: Column(
                       children: [
