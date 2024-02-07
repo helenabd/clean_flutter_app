@@ -17,6 +17,13 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _hideKeyboard() {
+      final currentFocus = FocusScope.of(context);
+      if (!currentFocus.hasPrimaryFocus) {
+        currentFocus.unfocus();
+      }
+    }
+
     return Scaffold(
       body: Builder(
         builder: (context) {
@@ -35,35 +42,38 @@ class LoginPage extends StatelessWidget {
           //   }
           // });
 
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const LoginHeader(),
-                const Headline1(text: 'Login'),
-                Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Provider(
-                    create: (_) => presenter,
-                    child: Form(
-                        child: Column(
-                      children: [
-                        const EmailInput(),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 8.0, bottom: 32),
-                          child: PasswordInput(),
-                        ),
-                        const LoginButton(),
-                        TextButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.person),
-                          label: const Text('Criar conta'),
-                        ),
-                      ],
-                    )),
-                  ),
-                )
-              ],
+          return GestureDetector(
+            onTap: _hideKeyboard,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const LoginHeader(),
+                  const Headline1(text: 'Login'),
+                  Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Provider(
+                      create: (_) => presenter,
+                      child: Form(
+                          child: Column(
+                        children: [
+                          const EmailInput(),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 8.0, bottom: 32),
+                            child: PasswordInput(),
+                          ),
+                          const LoginButton(),
+                          TextButton.icon(
+                            onPressed: () {},
+                            icon: const Icon(Icons.person),
+                            label: const Text('Criar conta'),
+                          ),
+                        ],
+                      )),
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         },
