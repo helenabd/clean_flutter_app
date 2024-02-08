@@ -1,5 +1,6 @@
 import '../../../../presentation/presentation.dart';
 import '../../../../validation/validation.dart';
+import '../../../builders/builders.dart';
 
 Validation makeLoginValidation() {
   return ValidationComposite(makeLoginValidations());
@@ -7,8 +8,7 @@ Validation makeLoginValidation() {
 
 List<FieldValidation> makeLoginValidations() {
   return [
-    RequiredFieldValidation('email'),
-    EmailValidation('email'),
-    RequiredFieldValidation('password'),
+    ...ValidationBuilder.field('email').required().email().build(),
+    ...ValidationBuilder.field('password').required().build(),
   ];
 }

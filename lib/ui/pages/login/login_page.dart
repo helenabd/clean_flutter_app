@@ -27,20 +27,20 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: Builder(
         builder: (context) {
-          // presenter.isLoadingStream?.listen((isLoading) {
-          //   if (isLoading) {
-          //     showLoading(context: context);
-          //   } else {
-          //     hideLoading(context: context);
-          //   }
-          // });
+          presenter.isLoadingStream?.listen((isLoading) {
+            if (isLoading) {
+              showLoading(context: context);
+            } else {
+              hideLoading(context: context);
+            }
+          });
 
-          // presenter.mainErrorStream?.listen((error) {
-          //   // ignore: unnecessary_null_comparison
-          //   if (error != null) {
-          //     showErrorMessage(context: context, error: error);
-          //   }
-          // });
+          presenter.mainErrorStream?.listen((error) {
+            // ignore: unnecessary_null_comparison
+            if (error != null) {
+              showErrorMessage(context: context, error: error);
+            }
+          });
 
           return GestureDetector(
             onTap: _hideKeyboard,
