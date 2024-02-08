@@ -1,5 +1,5 @@
-import '../../domain/domain.dart';
-import '../data.dart';
+import '../../../domain/domain.dart';
+import '../../data.dart';
 
 class RemoteAuthentication implements Authentication {
   final HttpClient httpClient;
