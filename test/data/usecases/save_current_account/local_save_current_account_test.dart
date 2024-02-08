@@ -37,8 +37,6 @@ void main() {
   late SaveSecureCacheStorageSpy saveSecureCacheStorage;
   late AccountEntity account;
 
-  Map mockValidData() => {'key': 'token', 'value': faker.guid.guid()};
-
   When mockRequest() => when(() => saveSecureCacheStorage.saveSecure(
       key: any(named: 'key'), value: any(named: 'value')));
 
