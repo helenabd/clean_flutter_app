@@ -47,8 +47,8 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   }
 
   void _validateForm() {
-    _isFormValid.value = _emailError.value == null &&
-        _passwordError.value == null &&
+    _isFormValid.value = _emailError.value == '' &&
+        _passwordError.value == '' &&
         _email != null &&
         _password != null;
   }

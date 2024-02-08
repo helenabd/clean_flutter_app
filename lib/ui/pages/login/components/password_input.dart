@@ -10,10 +10,10 @@ class PasswordInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final presenter = Provider.of<LoginPresenter>(context, listen: false);
+    final presenter = Provider.of<LoginPresenterWrapper>(context);
 
     return StreamBuilder<String?>(
-      stream: presenter.passwordErrorStream,
+      stream: presenter.presenter.passwordErrorStream,
       builder: (context, snapshot) {
         return TextFormField(
           style: Theme.of(context).textTheme.bodyMedium,
@@ -26,7 +26,7 @@ class PasswordInput extends StatelessWidget {
             ),
           ),
           obscureText: true,
-          onChanged: presenter.validatePassword,
+          onChanged: presenter.presenter.validatePassword,
         );
       },
     );

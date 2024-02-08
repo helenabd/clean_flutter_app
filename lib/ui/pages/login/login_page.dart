@@ -52,8 +52,9 @@ class LoginPage extends StatelessWidget {
                   const Headline1(text: 'Login'),
                   Padding(
                     padding: const EdgeInsets.all(32.0),
-                    child: Provider(
-                      create: (_) => presenter,
+                    child: ChangeNotifierProvider<LoginPresenterWrapper>(
+                      // Provider(
+                      create: (_) => LoginPresenterWrapper(presenter),
                       child: Form(
                           child: Column(
                         children: [
@@ -80,4 +81,10 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+}
+
+class LoginPresenterWrapper extends ChangeNotifier {
+  final LoginPresenter presenter;
+
+  LoginPresenterWrapper(this.presenter);
 }
