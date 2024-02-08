@@ -29,7 +29,10 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   @override
   Stream<bool>? get isLoadingStream => _isLoading.stream;
 
-  GetxLoginPresenter({required this.validation, required this.authentication});
+  GetxLoginPresenter({required this.validation, required this.authentication}) {
+    _email = '';
+    _password = '';
+  }
 
   @override
   void validateEmail(String email) {
