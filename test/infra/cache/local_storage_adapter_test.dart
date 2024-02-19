@@ -1,8 +1,7 @@
+import 'package:clean_flutter_app/infra/cache/local_storage_adapter.dart';
 import 'package:faker/faker.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
-
-import 'package:clean_flutter_app/data/cache/cache.dart';
 
 import '../mocks/mocks.dart';
 
