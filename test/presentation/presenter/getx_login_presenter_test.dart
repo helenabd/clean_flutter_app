@@ -14,8 +14,10 @@ void main() {
   late GetxLoginPresenter sut;
   late ValidationSpy validation;
   late AuthenticationSpy authentication;
+  late SaveCurrentAccountSpy saveCurrentAccount;
   late String email;
   late String password;
+  late String token;
 
   When mockValidationCall(String? field) => when(() => validation.validate(
       field: field == null ? any(named: 'field') : field,
@@ -29,23 +31,38 @@ void main() {
 
   void mockAuthentication() {
     registerFallbackValue(AuthenticationParams(email: email, secret: password));
-    mockAuthenticationCall()
-        .thenAnswer((_) async => AccountEntity(faker.guid.guid()));
+    mockAuthenticationCall().thenAnswer((_) async => AccountEntity(token));
   }
 
   void mockAuthenticationError(DomainError error) {
     mockAuthenticationCall().thenThrow(error);
   }
 
+  When mockSaveCurrentAccountCall() =>
+      when(() => saveCurrentAccount.save(any as AccountEntity));
+
+  void mockSaveCurrentAccountError() {
+    mockSaveCurrentAccountCall().thenThrow(DomainError.unexpected);
+  }
+
+  // void mockSaveAccount() {
+  //   mockSaveAccountCall().thenReturn('');
+  // }
+
   setUp(() {
     validation = ValidationSpy();
     authentication = AuthenticationSpy();
+    saveCurrentAccount = SaveCurrentAccountSpy();
     sut = GetxLoginPresenter(
-        validation: validation, authentication: authentication);
+        validation: validation,
+        authentication: authentication,
+        saveCurrentAccount: saveCurrentAccount);
     email = faker.internet.email();
     password = faker.internet.password();
+    token = faker.guid.guid();
     mockValidation();
     mockAuthentication();
+    mockSaveCurrentAccountCall();
   });
 
   test('Should call Validation with correct email', () {
@@ -159,6 +176,18 @@ void main() {
 
     verify(() => authentication
         .auth(AuthenticationParams(email: email, secret: password))).called(1);
+  });
+
+  test('Should call SaveCurrentAccount with correct value', () async {
+    sut.validateEmail(email);
+    await Future.delayed(Duration.zero);
+    sut.validatePassword(password);
+
+    await sut.auth();
+
+    mockSaveCurrentAccountCall();
+
+    verify(() => saveCurrentAccount.save(AccountEntity(token))).called(1);
   });
 
   test('Should emit correct events on Authentication success', () async {

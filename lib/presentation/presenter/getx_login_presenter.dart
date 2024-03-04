@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_final_fields, unnecessary_null_comparison
 
+import 'dart:developer';
+
 import 'package:clean_flutter_app/domain/domain.dart';
 import 'package:clean_flutter_app/ui/pages/login/login.dart';
 import 'package:get/get.dart';
@@ -9,6 +11,7 @@ import '../presentation.dart';
 class GetxLoginPresenter extends GetxController implements LoginPresenter {
   final Validation validation;
   final Authentication authentication;
+  final SaveCurrentAccount saveCurrentAccount;
 
   late String? _email;
   late String? _password;
@@ -29,7 +32,11 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   @override
   Stream<bool>? get isLoadingStream => _isLoading.stream;
 
-  GetxLoginPresenter({required this.validation, required this.authentication}) {
+  GetxLoginPresenter({
+    required this.validation,
+    required this.authentication,
+    required this.saveCurrentAccount,
+  }) {
     _email = '';
     _password = '';
   }
@@ -60,10 +67,13 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   Future<void> auth() async {
     _isLoading.value = true;
     try {
-      await authentication
+      final account = await authentication
           .auth(AuthenticationParams(email: _email!, secret: _password!));
+      await saveCurrentAccount.save(account);
     } on DomainError catch (error) {
+      log(error.description.toString());
       _mainError.value = error.description;
+      rethrow;
     }
     _isLoading.value = false;
   }
