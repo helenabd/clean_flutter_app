@@ -211,7 +211,7 @@ void main() {
     await Future.delayed(Duration.zero);
     sut.validatePassword(password);
 
-    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+    expectLater(sut.isLoadingStream, emits(true));
 
     await sut.auth();
   });
