@@ -190,6 +190,22 @@ void main() {
     verify(() => saveCurrentAccount.save(AccountEntity(token))).called(1);
   });
 
+  test('Should emit UnexpectedError if SaveCurrentAccount fails', () async {
+    mockSaveCurrentAccountError();
+    sut.validateEmail(email);
+    await Future.delayed(Duration.zero);
+    sut.validatePassword(password);
+
+    sut.mainErrorStream?.listen(expectAsync1((error) =>
+        expect(error, 'Algo errado aconteceu. Tente novamente em breve')));
+    //     .asFuture((_) {
+    //   expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+    // }
+    // );
+
+    await sut.auth();
+  });
+
   test('Should emit correct events on Authentication success', () async {
     sut.validateEmail(email);
     await Future.delayed(Duration.zero);
